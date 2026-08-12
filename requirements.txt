@@ -3,3 +3,4 @@ flask-cors
 flasgger
 gunicorn
 Werkzeug
+flask-swagger-ui
