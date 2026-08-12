@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>View Survey - Survey Management</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:linear-gradient(135deg,#0f172a,#1e3a8a);
+    color:#222;
+}
+
+.page{
+    min-height:100vh;
+    padding:30px 20px;
+}
+
+.container{
+    max-width:1000px;
+    margin:auto;
+}
+
+.header,
+.section,
+.loading,
+.error{
+    background:#fff;
+    border-radius:12px;
+    box-shadow:0 3px 15px rgba(0,0,0,.08);
+}
+
+.header{
+    position:relative;
+    padding:24px 30px;
+    margin-bottom:20px;
+}
+
+.header h1{
+    margin:0 0 8px;
+    font-size:30px;
+}
+
+.header p{
+    margin:0;
+    color:#666;
+}
+
+.dashboard-btn{
+    position:absolute;
+    right:25px;
+    top:50%;
+    transform:translateY(-50%);
+    padding:10px 18px;
+    background:#3e56c0;
+    color:#fff;
+    border:1px solid #f2f3f6;
+    border-radius:7px;
+    text-decoration:none;
+    font-size:14px;
+    font-weight:600;
+}
+
+.dashboard-btn:hover{
+    background:#1e3a8a;
+}
+
+.section{
+    padding:30px;
+    margin-bottom:20px;
+}
+
+.section-title{
+    font-size:21px;
+    font-weight:bold;
+    margin-bottom:25px;
+    padding-bottom:12px;
+    border-bottom:1px solid #e5e7eb;
+}
+
+.info-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:18px;
+}
+
+.info-box{
+    border:1px solid #e1e4eb;
+    border-radius:10px;
+    padding:18px;
+    background:#fafbfe;
+}
+
+.info-label{
+    font-size:13px;
+    font-weight:bold;
+    color:#6b7280;
+    text-transform:uppercase;
+    margin-bottom:7px;
+}
+
+.info-value{
+    font-size:16px;
+    font-weight:600;
+    white-space:pre-wrap;
+    word-break:break-word;
+}
+
+.question-card{
+    border:1px solid #e1e4eb;
+    border-radius:10px;
+    padding:22px;
+    margin-bottom:20px;
+    background:#fafbfe;
+}
+
+.question-card:last-child{
+    margin-bottom:0;
+}
+
+.question-number{
+    font-size:14px;
+    font-weight:bold;
+    color:#4f46e5;
+    margin-bottom:10px;
+    text-transform:uppercase;
+}
+
+.question-text{
+    font-size:17px;
+    font-weight:600;
+    margin:0;
+    line-height:1.5;
+}
+
+.answer-label{
+    margin-top:18px;
+    font-size:12px;
+    font-weight:bold;
+    color:#6b7280;
+    text-transform:uppercase;
+}
+
+.answer-box{
+    margin-top:7px;
+    padding:12px 14px;
+    border:1px solid #c7d2fe;
+    border-radius:8px;
+    background:#eef2ff;
+    color:#1e1b4b;
+    font-weight:600;
+}
+
+.answer-list{
+    margin-top:7px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+.answer-item{
+    padding:11px 14px;
+    border:1px solid #c7d2fe;
+    border-radius:8px;
+    background:#eef2ff;
+    color:#1e1b4b;
+    font-weight:600;
+}
+
+.no-response{
+    padding:15px;
+    border-radius:8px;
+    background:#f3f4f6;
+    color:#4b5563;
+}
+.feedback-card{
+    border:1px solid #e1e4eb;
+    border-radius:10px;
+    padding:22px;
+    margin-bottom:20px;
+    background:#fafbfe;
+}
+
+.feedback-title{
+    font-size:14px;
+    font-weight:bold;
+    color:#4f46e5;
+    margin-bottom:10px;
+    text-transform:uppercase;
+}
+
+.feedback-question{
+    font-size:16px;
+    font-weight:600;
+    margin-bottom:8px;
+    line-height:1.5;
+}
+
+.feedback-answer{
+    padding:13px 15px;
+    border:1px solid #c7d2fe;
+    border-radius:8px;
+    background:#eef2ff;
+    color:#1e1b4b;
+    font-weight:600;
+    white-space:pre-wrap;
+    word-break:break-word;
+}
+.loading,
+.error{
+    padding:30px;
+    text-align:center;
+}
+
+.error{
+    display:none;
+    color:#991b1b;
+    background:#fee2e2;
+}
+
+.back-area{
+    display:flex;
+    justify-content:flex-end;
+    gap:12px;
+    margin-top:20px;
+}
+
+.btn{
+    border:none;
+    border-radius:8px;
+    padding:12px 22px;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+    text-decoration:none;
+    display:inline-block;
+}
+
+.btn-back{
+    background:#e5e7eb;
+    color:#333;
+}
+
+.btn-back:hover{
+    background:#d7d9df;
+}
+
+@media(max-width:700px){
+    .page{
+        padding:15px;
+    }
+
+    .section{
+        padding:20px;
+    }
+
+    .info-grid{
+        grid-template-columns:1fr;
+    }
+
+    .dashboard-btn{
+        position:static;
+        display:inline-block;
+        transform:none;
+        margin-top:18px;
+    }
+
+    .header{
+        padding:22px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="page">
+<div class="container">
+
+    <!-- HEADER -->
+    <div class="header">
+
+        <h1>VIEW SURVEY</h1>
+
+        <p>
+            View the survey title, description and selected answers.
+        </p>
+
+        <a
+            href="{{ url_for('dashboard') }}"
+            class="dashboard-btn"
+        >
+            ← Dashboard
+        </a>
+
+    </div>
+
+
+    <!-- LOADING -->
+    <div id="loading" class="loading">
+        Loading survey...
+    </div>
+
+
+    <!-- ERROR -->
+    <div id="errorBox" class="error"></div>
+
+
+    <!-- CONTENT -->
+    <main id="content" style="display:none;">
+
+        <!-- SURVEY DETAILS -->
+        <section class="section">
+
+            <div class="section-title">
+                SURVEY DETAILS
+            </div>
+
+            <div class="info-grid">
+
+                <div class="info-box">
+                    <div class="info-label">
+                        Survey ID
+                    </div>
+
+                    <div
+                        id="surveyId"
+                        class="info-value"
+                    ></div>
+                </div>
+
+
+                <div class="info-box">
+                    <div class="info-label">
+                        Status
+                    </div>
+
+                    <div
+                        id="surveyStatus"
+                        class="info-value"
+                    ></div>
+                </div>
+
+
+                <div class="info-box">
+                    <div class="info-label">
+                        Survey Title
+                    </div>
+
+                    <div
+                        id="surveyTitle"
+                        class="info-value"
+                    ></div>
+                </div>
+
+
+                <div class="info-box">
+                    <div class="info-label">
+                        Questions
+                    </div>
+
+                    <div
+                        id="questionCount"
+                        class="info-value"
+                    ></div>
+                </div>
+
+
+                <div
+                    class="info-box"
+                    style="grid-column:1/-1;"
+                >
+
+                    <div class="info-label">
+                        Survey Description
+                    </div>
+
+                    <div
+                        id="surveyDescription"
+                        class="info-value"
+                    ></div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- QUESTIONS -->
+        <section class="section">
+
+            <div class="section-title">
+                SURVEY QUESTIONS
+            </div>
+
+            <div id="questionsContainer"></div>
+
+        </section>
+<section class="section">
+
+    <div class="section-title">
+        FEEDBACK
+    </div>
+
+    <div id="feedbackContainer">
+
+        <div class="feedback-card">
+
+            <div class="feedback-title">
+                FEEDBACK 1
+            </div>
+
+            <div class="feedback-question">
+                What do you like most about this survey?
+            </div>
+
+            <div
+                id="feedbackLikeView"
+                class="feedback-answer"
+            >
+                No answer provided.
+            </div>
+
+        </div>
+
+
+        <div class="feedback-card">
+
+            <div class="feedback-title">
+                FEEDBACK 2
+            </div>
+
+            <div class="feedback-question">
+                What can we improve in this survey?
+            </div>
+
+            <div
+                id="feedbackImproveView"
+                class="feedback-answer"
+            >
+                No answer provided.
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+        <!-- BACK -->
+        <div class="back-area">
+
+            <a
+                href="{{ url_for('surveys') }}"
+                class="btn btn-back"
+            >
+                ← Back to Surveys
+            </a>
+
+        </div>
+
+    </main>
+
+</div>
+</div>
+
+
+<script>
+
+/* ============================================================
+   GET SURVEY ID
+   ============================================================ */
+
+function getSurveyId(){
+
+    const match =
+        window.location.pathname.match(
+            /\/view-survey\/(\d+)/
+        );
+
+    if(match){
+        return match[1];
+    }
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    return (
+        params.get("survey_id") ||
+        params.get("id")
+    );
+}
+
+
+/* ============================================================
+   SAFE TEXT
+   ============================================================ */
+
+function safeText(value){
+
+    if(
+        value === null ||
+        value === undefined ||
+        value === ""
+    ){
+        return "Not provided";
+    }
+
+    return String(value);
+}
+
+
+/* ============================================================
+   SHOW ERROR
+   ============================================================ */
+
+function showError(message){
+
+    document.getElementById(
+        "loading"
+    ).style.display = "none";
+
+    document.getElementById(
+        "content"
+    ).style.display = "none";
+
+    const box =
+        document.getElementById(
+            "errorBox"
+        );
+
+    box.style.display = "block";
+
+    box.textContent = message;
+}
+
+
+/* ============================================================
+   FIND ANSWER
+   ============================================================ */
+
+function findAnswer(
+    question,
+    index,
+    answers
+){
+
+    if(
+        !answers ||
+        typeof answers !== "object"
+    ){
+        return null;
+    }
+
+
+    /* Answer stored by question ID */
+    const byId =
+        answers[String(question.id)];
+
+    if(byId !== undefined){
+
+        if(
+            byId &&
+            typeof byId === "object" &&
+            "answer" in byId
+        ){
+            return byId.answer;
+        }
+
+        return byId;
+    }
+
+
+    /* Answer stored as q1, q2, q3... */
+    const byQ =
+        answers["q" + (index + 1)];
+
+    if(byQ !== undefined){
+
+        if(
+            byQ &&
+            typeof byQ === "object" &&
+            "answer" in byQ
+        ){
+            return byQ.answer;
+        }
+
+        return byQ;
+    }
+
+
+    /* Answer stored by question order */
+    const byOrder =
+        answers[String(index + 1)];
+
+    if(byOrder !== undefined){
+
+        if(
+            byOrder &&
+            typeof byOrder === "object" &&
+            "answer" in byOrder
+        ){
+            return byOrder.answer;
+        }
+
+        return byOrder;
+    }
+
+
+    /* Answer stored by question text */
+    const byText =
+        answers[question.question];
+
+    if(byText !== undefined){
+
+        if(
+            byText &&
+            typeof byText === "object" &&
+            "answer" in byText
+        ){
+            return byText.answer;
+        }
+
+        return byText;
+    }
+
+
+    return null;
+}
+
+
+/* ============================================================
+   CREATE QUESTION CARD
+   ============================================================ */
+
+function createQuestionCard(
+    question,
+    index,
+    answers
+){
+
+    const card =
+        document.createElement("div");
+
+    card.className =
+        "question-card";
+
+
+    const number =
+        document.createElement("div");
+
+    number.className =
+        "question-number";
+
+    number.textContent =
+        "Question " + (index + 1);
+
+
+    const text =
+        document.createElement("div");
+
+    text.className =
+        "question-text";
+
+    text.textContent =
+        safeText(question.question);
+
+
+    card.appendChild(number);
+    card.appendChild(text);
+
+
+    const answer =
+        findAnswer(
+            question,
+            index,
+            answers
+        );
+
+
+    /* --------------------------------------------------------
+       MULTIPLE ANSWERS
+       -------------------------------------------------------- */
+
+    if(Array.isArray(answer)){
+
+        const label =
+            document.createElement("div");
+
+        label.className =
+            "answer-label";
+
+        label.textContent =
+            "Selected Answer";
+
+        card.appendChild(label);
+
+
+        if(answer.length){
+
+            const list =
+                document.createElement("div");
+
+            list.className =
+                "answer-list";
+
+
+            answer.forEach(
+                function(value){
+
+                    const item =
+                        document.createElement(
+                            "div"
+                        );
+
+                    item.className =
+                        "answer-item";
+
+                    item.textContent =
+                        safeText(value);
+
+                    list.appendChild(item);
+                }
+            );
+
+
+            card.appendChild(list);
+
+        }else{
+
+            const box =
+                document.createElement("div");
+
+            box.className =
+                "answer-box";
+
+            box.textContent =
+                "No answer selected.";
+
+            card.appendChild(box);
+        }
+
+
+        return card;
+    }
+
+
+    /* --------------------------------------------------------
+       SINGLE ANSWER
+       -------------------------------------------------------- */
+
+    const label =
+        document.createElement("div");
+
+    label.className =
+        "answer-label";
+
+    label.textContent =
+        "Selected Answer";
+
+    card.appendChild(label);
+
+
+    const box =
+        document.createElement("div");
+
+    box.className =
+        "answer-box";
+
+
+    if(
+        answer !== null &&
+        answer !== undefined &&
+        String(answer).trim() !== ""
+    ){
+
+        box.textContent =
+            String(answer);
+
+    }else{
+
+        box.textContent =
+            "No answer selected.";
+    }
+
+
+    card.appendChild(box);
+
+
+    return card;
+}
+
+
+/* ============================================================
+   LOAD SURVEY
+   ============================================================ */
+
+async function loadSurvey(){
+
+    const surveyId =
+        getSurveyId();
+
+
+    if(!surveyId){
+
+        showError(
+            "Survey ID was not found in the URL."
+        );
+
+        return;
+    }
+
+
+    try{
+
+        const response =
+            await fetch(
+                "/api/surveys/" +
+                encodeURIComponent(
+                    surveyId
+                ) +
+                "/view",
+                {
+                    method:"GET",
+
+                    headers:{
+                        "Accept":
+                            "application/json"
+                    }
+                }
+            );
+
+
+        let data;
+
+
+        try{
+
+            data =
+                await response.json();
+
+        }catch(error){
+
+            throw new Error(
+                "Invalid response from server."
+            );
+        }
+
+
+        if(
+            !response.ok ||
+            !data.success
+        ){
+
+            throw new Error(
+                data.message ||
+                "Survey could not be loaded."
+            );
+        }
+
+
+        /* ----------------------------------------------------
+           IMPORTANT:
+           API returns survey and questions separately.
+           ---------------------------------------------------- */
+
+        const survey =
+            data.survey || {};
+
+
+        const questions =
+            Array.isArray(
+                data.questions
+            )
+                ? data.questions
+                : [];
+
+
+        const responseData =
+            data.response || null;
+
+
+        const answers =
+            responseData &&
+            responseData.answers
+                ? responseData.answers
+                : {};
+
+
+        /* ----------------------------------------------------
+           SURVEY DETAILS
+           ---------------------------------------------------- */
+
+        document.getElementById(
+            "surveyId"
+        ).textContent =
+            safeText(survey.id);
+
+
+        document.getElementById(
+            "surveyStatus"
+        ).textContent =
+            safeText(survey.status);
+
+
+        document.getElementById(
+            "surveyTitle"
+        ).textContent =
+            safeText(survey.title);
+
+
+        document.getElementById(
+            "surveyDescription"
+        ).textContent =
+            safeText(survey.description);
+
+
+        document.getElementById(
+            "questionCount"
+        ).textContent =
+            questions.length;
+
+
+        /* ----------------------------------------------------
+           QUESTIONS
+           ---------------------------------------------------- */
+
+        const container =
+            document.getElementById(
+                "questionsContainer"
+            );
+
+/* ----------------------------------------------------
+   FEEDBACK
+   ---------------------------------------------------- */
+
+const feedbackLike =
+    answers.feedback_like || "";
+
+const feedbackImprove =
+    answers.feedback_improve || "";
+
+
+document.getElementById(
+    "feedbackLikeView"
+).textContent =
+    feedbackLike.trim()
+        ? feedbackLike
+        : "No answer provided.";
+
+
+document.getElementById(
+    "feedbackImproveView"
+).textContent =
+    feedbackImprove.trim()
+        ? feedbackImprove
+        : "No answer provided.";
+        container.innerHTML = "";
+
+
+        if(!questions.length){
+
+            const empty =
+                document.createElement(
+                    "div"
+                );
+
+            empty.className =
+                "no-response";
+
+            empty.textContent =
+                "No questions found for this survey.";
+
+            container.appendChild(empty);
+
+        }else{
+
+            if(!responseData){
+
+                const note =
+                    document.createElement(
+                        "div"
+                    );
+
+                note.className =
+                    "no-response";
+
+                note.textContent =
+                    "No response has been submitted for this survey yet.";
+
+                container.appendChild(note);
+            }
+
+
+            questions.forEach(
+                function(question,index){
+
+                    container.appendChild(
+                        createQuestionCard(
+                            question,
+                            index,
+                            answers
+                        )
+                    );
+
+                }
+            );
+        }
+
+
+        /* ----------------------------------------------------
+           SHOW CONTENT
+           ---------------------------------------------------- */
+
+        document.getElementById(
+            "loading"
+        ).style.display = "none";
+
+
+        document.getElementById(
+            "errorBox"
+        ).style.display = "none";
+
+
+        document.getElementById(
+            "content"
+        ).style.display = "block";
+
+
+    }catch(error){
+
+        console.error(
+            "VIEW SURVEY ERROR:",
+            error
+        );
+
+        showError(
+            error.message ||
+            "Unable to load survey."
+        );
+    }
+}
+
+
+/* ============================================================
+   PAGE LOAD
+   ============================================================ */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    loadSurvey
+);
+
+</script>
+
+</body>
+</html>

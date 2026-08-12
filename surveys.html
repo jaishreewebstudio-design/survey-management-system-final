@@ -1,0 +1,1874 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>All Surveys</title>
+
+    <style>
+
+        /* =================================================
+           GLOBAL
+        ================================================= */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+
+            margin: 0;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background:
+                #0d183d;
+
+            color:
+                #111827;
+
+            min-height:
+                100vh;
+        }
+
+
+        /* =================================================
+           HEADER
+        ================================================= */
+
+        .header {
+
+            background:
+                #0d183d;
+
+            color:
+                white;
+
+            padding:
+                18px 26px 12px;
+
+            display:
+                flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                center;
+        }
+
+
+        .header-left h1 {
+
+            margin:
+                0 0 5px;
+
+            font-size:
+                28px;
+
+            font-weight:
+                700;
+
+            color:
+                #ffffff;
+        }
+
+
+        .header-left p {
+
+            margin:
+                0;
+
+            font-size:
+                14px;
+
+            color:
+                #dbe4ff;
+        }
+
+
+        /* =================================================
+           DASHBOARD BUTTON
+        ================================================= */
+
+        .dashboard-btn {
+
+            background:
+                #ffffff;
+
+            color:
+                #1d4ed8;
+
+            text-decoration:
+                none;
+
+            padding:
+                11px 20px;
+
+            border-radius:
+                9px;
+
+            font-weight:
+                600;
+
+            font-size:
+                14px;
+
+            border:
+                1px solid #dbe4ff;
+
+            transition:
+                0.2s;
+        }
+
+
+        .dashboard-btn:hover {
+
+            background:
+                #eef3ff;
+
+            transform:
+                translateY(-1px);
+        }
+
+
+        /* =================================================
+           SEARCH
+        ================================================= */
+
+        .search-box {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            gap:
+                10px;
+
+            margin:
+                12px 0 18px 38px;
+
+            max-width:
+                560px;
+        }
+
+
+        .search-box input {
+
+            width:
+                470px;
+
+            height:
+                38px;
+
+            padding:
+                9px 13px;
+
+            border:
+                1px solid #cbd5e1;
+
+            border-radius:
+                8px;
+
+            font-size:
+                13px;
+
+            outline:
+                none;
+
+            background:
+                #ffffff;
+
+            color:
+                #111827;
+
+            transition:
+                0.2s;
+        }
+
+
+        .search-box input:focus {
+
+            border-color:
+                #6366f1;
+
+            box-shadow:
+                0 0 0 3px rgba(99, 102, 241, 0.18);
+        }
+
+
+        .search-box button {
+
+            height:
+                38px;
+
+            padding:
+                0 17px;
+
+            border:
+                none;
+
+            border-radius:
+                8px;
+
+            background:
+                #4f46e5;
+
+            color:
+                white;
+
+            font-weight:
+                600;
+
+            font-size:
+                13px;
+
+            cursor:
+                pointer;
+
+            transition:
+                0.2s;
+        }
+
+
+        .search-box button:hover {
+
+            background:
+                #4338ca;
+
+            transform:
+                translateY(-1px);
+        }
+
+
+        /* =================================================
+           PAGE
+        ================================================= */
+
+        .page {
+
+            padding:
+                0 24px 35px;
+        }
+
+
+        .layout {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                minmax(0, 1fr) 270px;
+
+            gap:
+                16px;
+
+            align-items:
+                start;
+        }
+
+
+        /* =================================================
+           TABLE CARD
+        ================================================= */
+
+        .table-card {
+
+            background:
+                #ffffff;
+
+            border:
+                1px solid #d5dbea;
+
+            border-radius:
+                13px;
+
+            padding:
+                14px;
+
+            overflow-x:
+                auto;
+
+            box-shadow:
+                0 5px 18px rgba(0, 0, 0, 0.12);
+        }
+
+
+        /* =================================================
+           TABLE
+        ================================================= */
+
+        table {
+
+            width:
+                100%;
+
+            border-collapse:
+                separate;
+
+            border-spacing:
+                0;
+
+            min-width:
+                1050px;
+
+            border:
+                1px solid #cbd5e1;
+
+            border-radius:
+                8px;
+
+            overflow:
+                hidden;
+        }
+
+
+        /* =================================================
+           TABLE HEADER
+        ================================================= */
+
+        thead {
+
+            background:
+                #edf1f7;
+        }
+
+
+        th {
+
+            text-align:
+                left;
+
+            padding:
+                13px 12px;
+
+            font-size:
+                13px;
+
+            font-weight:
+                700;
+
+            white-space:
+                nowrap;
+
+            color:
+                #172554;
+
+            border-right:
+                1px solid #cbd5e1;
+
+            border-bottom:
+                2px solid #b8c4d6;
+        }
+
+
+        th:last-child {
+
+            border-right:
+                none;
+        }
+
+
+        /* =================================================
+           COLUMN WIDTHS
+        ================================================= */
+
+        th:nth-child(1),
+        td:nth-child(1) {
+
+            width:
+                85px;
+        }
+
+
+        th:nth-child(2),
+        td:nth-child(2) {
+
+            width:
+                200px;
+        }
+
+
+        th:nth-child(3),
+        td:nth-child(3) {
+
+            width:
+                270px;
+        }
+
+
+        th:nth-child(4),
+        td:nth-child(4) {
+
+            width:
+                115px;
+        }
+
+
+        th:nth-child(5),
+        td:nth-child(5) {
+
+            width:
+                105px;
+        }
+
+
+        th:nth-child(6),
+        td:nth-child(6) {
+
+            width:
+                105px;
+        }
+
+
+        th:nth-child(7),
+        td:nth-child(7) {
+
+            width:
+                185px;
+        }
+
+
+        th:nth-child(8),
+        td:nth-child(8) {
+
+            width:
+                125px;
+        }
+
+
+        /* =================================================
+           TABLE BODY
+        ================================================= */
+
+        td {
+
+            padding:
+                12px;
+
+            font-size:
+                13px;
+
+            vertical-align:
+                middle;
+
+            background:
+                #ffffff;
+
+            border-right:
+                1px solid #dbe2ec;
+
+            border-bottom:
+                1px solid #dbe2ec;
+        }
+
+
+        td:last-child {
+
+            border-right:
+                none;
+        }
+
+
+        tbody tr:last-child td {
+
+            border-bottom:
+                none;
+        }
+
+
+        tbody tr {
+
+            transition:
+                0.15s;
+        }
+
+
+        tbody tr:hover td {
+
+            background:
+                #f8faff;
+        }
+
+
+        /* =================================================
+           SURVEY ID
+        ================================================= */
+
+        .survey-id {
+
+            display:
+                inline-flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            width:
+                28px;
+
+            height:
+                28px;
+
+            border-radius:
+                7px;
+
+            background:
+                #eef2ff;
+
+            border:
+                1px solid #d8defe;
+
+            color:
+                #2563eb;
+
+            font-weight:
+                700;
+        }
+
+
+        /* =================================================
+           TITLE
+        ================================================= */
+
+        .title {
+
+            font-weight:
+                700;
+
+            color:
+                #173b8f;
+
+            line-height:
+                1.4;
+        }
+
+
+        /* =================================================
+           DESCRIPTION
+        ================================================= */
+
+        .description {
+
+            max-width:
+                270px;
+
+            line-height:
+                1.4;
+
+            color:
+                #475569;
+
+            word-break:
+                break-word;
+        }
+
+
+        /* =================================================
+           STATUS
+        ================================================= */
+
+        .status {
+
+            display:
+                inline-flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            padding:
+                6px 12px;
+
+            border-radius:
+                20px;
+
+            font-size:
+                11px;
+
+            font-weight:
+                700;
+
+            border:
+                1px solid transparent;
+        }
+
+
+        .status-draft {
+
+            background:
+                #fef3c7;
+
+            color:
+                #a16207;
+
+            border-color:
+                #f5d778;
+        }
+
+
+        .status-published {
+
+            background:
+                #dcfce7;
+
+            color:
+                #15803d;
+
+            border-color:
+                #9ee2b3;
+        }
+
+
+        /* =================================================
+           NUMBER COLUMNS
+        ================================================= */
+
+        td:nth-child(5),
+        td:nth-child(6) {
+
+            color:
+                #1e3a8a;
+
+            font-weight:
+                600;
+        }
+
+
+        /* =================================================
+           CREATED AT
+        ================================================= */
+
+        td:nth-child(7) {
+
+            color:
+                #475569;
+
+            white-space:
+                nowrap;
+
+            font-size:
+                12px;
+        }
+
+
+        /* =================================================
+           ACTIONS
+        ================================================= */
+
+        .actions {
+
+            display:
+                flex;
+
+            flex-direction:
+                column;
+
+            gap:
+                6px;
+
+            width:
+                100px;
+        }
+
+
+        .action-btn {
+
+            width:
+                100px;
+
+            min-height:
+                32px;
+
+            border:
+                none;
+
+            border-radius:
+                7px;
+
+            padding:
+                8px 10px;
+
+            color:
+                white;
+
+            font-weight:
+                700;
+
+            cursor:
+                pointer;
+
+            font-size:
+                12px;
+
+            text-decoration:
+                none;
+
+            text-align:
+                center;
+
+            display:
+                block;
+
+            transition:
+                0.2s;
+        }
+
+
+        /* GREEN */
+
+        .btn-green {
+
+            background:
+                #16b95a;
+
+            box-shadow:
+                0 2px 4px rgba(22, 185, 90, 0.18);
+        }
+
+
+        .btn-green:hover {
+
+            background:
+                #119b4b;
+
+            transform:
+                translateY(-1px);
+        }
+
+
+        /* RED */
+
+        .btn-red {
+
+            background:
+                #ef4444;
+        }
+
+
+        .btn-red:hover:not(:disabled) {
+
+            background:
+                #dc2626;
+
+            transform:
+                translateY(-1px);
+        }
+
+
+        .action-btn:disabled {
+
+            opacity:
+                0.45;
+
+            cursor:
+                not-allowed;
+
+            transform:
+                none;
+        }
+
+
+        /* =================================================
+           INSTRUCTIONS
+        ================================================= */
+
+        .instructions {
+
+            background:
+                #ffffff;
+
+            border:
+                1px solid #d5dbea;
+
+            border-radius:
+                13px;
+
+            padding:
+                17px;
+
+            position:
+                sticky;
+
+            top:
+                12px;
+
+            box-shadow:
+                0 5px 18px rgba(0, 0, 0, 0.12);
+
+            min-height:
+                590px;
+        }
+
+
+        .instructions h2 {
+
+            margin:
+                0 0 13px;
+
+            padding-bottom:
+                10px;
+
+            font-size:
+                19px;
+
+            color:
+                #172554;
+
+            border-bottom:
+                1px solid #dbe2ec;
+        }
+
+
+        .instruction-item {
+
+            padding:
+                12px;
+
+            border-radius:
+                9px;
+
+            background:
+                #f8fafc;
+
+            border:
+                1px solid #e2e8f0;
+
+            margin-bottom:
+                9px;
+
+            font-size:
+                12px;
+
+            line-height:
+                1.5;
+
+            color:
+                #334155;
+        }
+
+
+        .instruction-item:last-child {
+
+            margin-bottom:
+                0;
+        }
+
+
+        .instruction-item strong {
+
+            display:
+                block;
+
+            margin-bottom:
+                5px;
+
+            color:
+                #172554;
+
+            font-size:
+                12px;
+        }
+
+
+        /* =================================================
+           DOTS
+        ================================================= */
+
+        .green-dot,
+        .yellow-dot,
+        .red-dot {
+
+            display:
+                inline-block;
+
+            width:
+                9px;
+
+            height:
+                9px;
+
+            border-radius:
+                50%;
+
+            margin-right:
+                6px;
+        }
+
+
+        .green-dot {
+
+            background:
+                #22c55e;
+        }
+
+
+        .yellow-dot {
+
+            background:
+                #eab308;
+        }
+
+
+        .red-dot {
+
+            background:
+                #ef4444;
+        }
+
+
+        /* =================================================
+           EMPTY / LOADING
+        ================================================= */
+
+        .message {
+
+            text-align:
+                center;
+
+            padding:
+                40px;
+
+            color:
+                #64748b;
+        }
+
+
+        .error {
+
+            color:
+                #dc2626;
+        }
+
+
+        /* =================================================
+           RESPONSIVE
+        ================================================= */
+
+        @media (max-width: 1050px) {
+
+            .layout {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .instructions {
+
+                position:
+                    static;
+
+                min-height:
+                    auto;
+            }
+        }
+
+
+        @media (max-width: 600px) {
+
+            .header {
+
+                flex-direction:
+                    column;
+
+                align-items:
+                    flex-start;
+
+                gap:
+                    14px;
+            }
+
+
+            .dashboard-btn {
+
+                align-self:
+                    flex-start;
+            }
+
+
+            .search-box {
+
+                margin-left:
+                    18px;
+
+                max-width:
+                    calc(100% - 36px);
+            }
+
+
+            .search-box input {
+
+                width:
+                    100%;
+            }
+
+
+            .page {
+
+                padding:
+                    0 12px 30px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ======================================================
+     HEADER
+====================================================== -->
+
+<header class="header">
+
+    <div class="header-left">
+
+        <h1>
+            All Surveys
+        </h1>
+
+        <p>
+            View and manage all your surveys
+        </p>
+
+    </div>
+
+
+    <a
+        href="{{ url_for('dashboard') }}"
+        class="dashboard-btn"
+    >
+        ← Dashboard
+    </a>
+
+</header>
+
+
+<!-- ======================================================
+     SEARCH
+====================================================== -->
+
+<div class="search-box">
+
+    <input
+        type="text"
+        id="surveySearch"
+        placeholder="Search Survey ID or Title..."
+    >
+
+    <button
+        type="button"
+        onclick="clearSearch()"
+    >
+        Clear
+    </button>
+
+</div>
+
+
+<!-- ======================================================
+     PAGE
+====================================================== -->
+
+<main class="page">
+
+    <div class="layout">
+
+
+        <!-- =================================================
+             SURVEY TABLE
+        ================================================== -->
+
+        <section class="table-card">
+
+            <table id="surveyTable">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Survey ID
+                        </th>
+
+                        <th>
+                            Survey Title
+                        </th>
+
+                        <th>
+                            Description
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Questions
+                        </th>
+
+                        <th>
+                            Responses
+                        </th>
+
+                        <th>
+                            Created At
+                        </th>
+
+                        <th>
+                            Action
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="surveyTableBody">
+
+                    <tr>
+
+                        <td
+                            colspan="8"
+                            class="message"
+                        >
+                            Loading surveys...
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+
+        <!-- =================================================
+             INSTRUCTIONS
+        ================================================== -->
+
+        <aside class="instructions">
+
+            <h2>
+                Instructions
+            </h2>
+
+
+            <div class="instruction-item">
+
+                <strong>
+
+                    <span class="yellow-dot"></span>
+
+                    Draft Survey
+
+                </strong>
+
+                Draft surveys can be viewed,
+                edited and deleted before publishing.
+
+            </div>
+
+
+            <div class="instruction-item">
+
+                <strong>
+
+                    <span class="green-dot"></span>
+
+                    View Survey
+
+                </strong>
+
+                Use the View button to see the
+                survey details and submitted responses.
+
+            </div>
+
+
+            <div class="instruction-item">
+
+                <strong>
+                    Draft Actions
+                </strong>
+
+                Draft surveys have View, Edit and
+                Delete options available.
+
+            </div>
+
+
+            <div class="instruction-item">
+
+                <strong>
+
+                    <span class="red-dot"></span>
+
+                    Published Survey
+
+                </strong>
+
+                Once a survey is published, it
+                cannot be edited or deleted.
+
+            </div>
+
+
+            <div class="instruction-item">
+
+                <strong>
+                    Published Actions
+                </strong>
+
+                After publishing, only the View
+                option remains available.
+
+            </div>
+
+        </aside>
+
+    </div>
+
+</main>
+
+
+<script>
+
+
+    /* =====================================================
+       LOAD SURVEYS
+    ===================================================== */
+
+    async function loadSurveys() {
+
+        const tbody =
+            document.getElementById(
+                "surveyTableBody"
+            );
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "/api/surveys"
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok || !data.success) {
+
+                throw new Error(
+                    data.message ||
+                    "Unable to load surveys."
+                );
+
+            }
+
+
+            renderSurveys(
+                data.surveys || []
+            );
+
+
+        } catch (error) {
+
+            tbody.innerHTML = `
+
+                <tr>
+
+                    <td
+                        colspan="8"
+                        class="message error"
+                    >
+
+                        ${escapeHtml(
+                            error.message
+                        )}
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        }
+
+    }
+
+
+    /* =====================================================
+       RENDER SURVEYS
+    ===================================================== */
+
+    function renderSurveys(
+        surveys
+    ) {
+
+        const tbody =
+            document.getElementById(
+                "surveyTableBody"
+            );
+
+
+        if (!surveys.length) {
+
+            tbody.innerHTML = `
+
+                <tr>
+
+                    <td
+                        colspan="8"
+                        class="message"
+                    >
+                        No surveys found.
+                    </td>
+
+                </tr>
+
+            `;
+
+            return;
+        }
+
+
+        tbody.innerHTML =
+            surveys.map(
+                survey => {
+
+                    const isPublished =
+                        survey.status ===
+                        "published";
+
+
+                    const statusClass =
+                        isPublished
+                            ? "status-published"
+                            : "status-draft";
+
+
+                    const statusText =
+                        isPublished
+                            ? "Published"
+                            : "Draft";
+
+
+                    return `
+
+                        <tr>
+
+                            <td>
+
+                                <span
+                                    class="survey-id"
+                                >
+
+                                    ${survey.id}
+
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                <div class="title">
+
+                                    ${escapeHtml(
+                                        survey.title
+                                    )}
+
+                                </div>
+
+                            </td>
+
+
+                            <td>
+
+                                <div
+                                    class="description"
+                                >
+
+                                    ${escapeHtml(
+                                        survey.description ||
+                                        ""
+                                    )}
+
+                                </div>
+
+                            </td>
+
+
+                            <td>
+
+                                <span
+                                    class="status ${statusClass}"
+                                >
+
+                                    ${statusText}
+
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                ${survey.question_count || 0}
+
+                            </td>
+
+
+                            <td>
+
+                                ${survey.response_count || 0}
+
+                            </td>
+
+
+                            <td>
+
+                                ${formatDate(
+                                    survey.created_at
+                                )}
+
+                            </td>
+
+
+                            <td>
+
+                                <div
+                                    class="actions"
+                                >
+
+
+                                    <!-- VIEW -->
+
+                                    <a
+                                        href="/view-survey/${survey.id}"
+                                        class="
+                                            action-btn
+                                            btn-green
+                                        "
+                                    >
+
+                                        👁 View
+
+                                    </a>
+
+
+                                    ${
+                                        isPublished
+
+                                        ?
+
+                                        `
+
+                                            <button
+                                                class="
+                                                    action-btn
+                                                    btn-red
+                                                "
+                                                disabled
+                                                title="
+                                                    Published surveys
+                                                    cannot be edited
+                                                "
+                                            >
+
+                                                ✎ Edit
+
+                                            </button>
+
+
+                                            <button
+                                                class="
+                                                    action-btn
+                                                    btn-red
+                                                "
+                                                disabled
+                                                title="
+                                                    Published surveys
+                                                    cannot be deleted
+                                                "
+                                            >
+
+                                                🗑 Delete
+
+                                            </button>
+
+                                        `
+
+                                        :
+
+                                        `
+
+                                            <!-- EDIT -->
+
+                                            <a
+                                                href="/edit-survey/${survey.id}"
+                                                class="
+                                                    action-btn
+                                                    btn-green
+                                                "
+                                            >
+
+                                                ✎ Edit
+
+                                            </a>
+
+
+                                            <!-- DELETE -->
+
+                                            <button
+                                                class="
+                                                    action-btn
+                                                    btn-green
+                                                "
+                                                onclick="
+                                                    deleteSurvey(
+                                                        ${survey.id}
+                                                    )
+                                                "
+                                            >
+
+                                                🗑 Delete
+
+                                            </button>
+
+                                        `
+                                    }
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    `;
+
+                }
+
+            ).join("");
+
+    }
+
+
+    /* =====================================================
+       DELETE SURVEY
+    ===================================================== */
+
+    async function deleteSurvey(
+        surveyId
+    ) {
+
+        const confirmed =
+            confirm(
+                "Are you sure you want to delete this draft survey?"
+            );
+
+
+        if (!confirmed) {
+
+            return;
+
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `/api/surveys/${surveyId}`,
+                    {
+                        method:
+                            "DELETE"
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok || !data.success) {
+
+                alert(
+                    data.message ||
+                    "Unable to delete survey."
+                );
+
+                return;
+            }
+
+
+            alert(
+                "Survey deleted successfully."
+            );
+
+
+            loadSurveys();
+
+
+        } catch (error) {
+
+            alert(
+                "Something went wrong."
+            );
+
+        }
+
+    }
+
+
+    /* =====================================================
+       FORMAT DATE
+    ===================================================== */
+
+    function formatDate(
+        value
+    ) {
+
+        if (!value) {
+
+            return "-";
+
+        }
+
+
+        const date =
+            new Date(
+                value.replace(
+                    " ",
+                    "T"
+                )
+            );
+
+
+        if (isNaN(
+            date.getTime()
+        )) {
+
+            return escapeHtml(
+                value
+            );
+
+        }
+
+
+        return date.toLocaleString(
+            "en-IN",
+            {
+                day:
+                    "numeric",
+
+                month:
+                    "numeric",
+
+                year:
+                    "numeric",
+
+                hour:
+                    "numeric",
+
+                minute:
+                    "2-digit",
+
+                second:
+                    "2-digit",
+
+                hour12:
+                    true
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       HTML ESCAPE
+    ===================================================== */
+
+    function escapeHtml(
+        value
+    ) {
+
+        return String(
+            value ?? ""
+        )
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+    }
+
+
+    /* =====================================================
+       SEARCH
+       Search by Survey ID OR Survey Title
+    ===================================================== */
+
+    const searchInput =
+        document.getElementById(
+            "surveySearch"
+        );
+
+
+    searchInput.addEventListener(
+        "input",
+        function () {
+
+            const searchValue =
+                this.value
+                    .toLowerCase()
+                    .trim();
+
+
+            const rows =
+                document.querySelectorAll(
+                    "#surveyTable tbody tr"
+                );
+
+
+            rows.forEach(
+                function (row) {
+
+                    if (
+                        !row.cells ||
+                        row.cells.length < 2
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    const surveyId =
+                        row.cells[0]
+                            ?.textContent
+                            .toLowerCase()
+                            .trim() || "";
+
+
+                    const surveyTitle =
+                        row.cells[1]
+                            ?.textContent
+                            .toLowerCase()
+                            .trim() || "";
+
+
+                    if (
+                        surveyId.includes(
+                            searchValue
+                        )
+                        ||
+                        surveyTitle.includes(
+                            searchValue
+                        )
+                    ) {
+
+                        row.style.display =
+                            "";
+
+                    } else {
+
+                        row.style.display =
+                            "none";
+
+                    }
+
+                }
+
+            );
+
+        }
+    );
+
+
+    /* =====================================================
+       CLEAR SEARCH
+    ===================================================== */
+
+    function clearSearch() {
+
+        searchInput.value =
+            "";
+
+
+        const rows =
+            document.querySelectorAll(
+                "#surveyTable tbody tr"
+            );
+
+
+        rows.forEach(
+            function (row) {
+
+                row.style.display =
+                    "";
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       START
+    ===================================================== */
+
+    loadSurveys();
+
+
+</script>
+
+
+</body>
+
+</html>

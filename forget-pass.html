@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Forgot Password - Survey Management System</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #1e3c72,
+                    #2a5298
+                );
+
+            padding: 20px;
+        }
+
+        .forgot-box {
+            width: 400px;
+            max-width: 100%;
+
+            background: white;
+
+            padding: 40px;
+
+            border-radius: 15px;
+
+            box-shadow:
+                0 10px 30px
+                rgba(0, 0, 0, 0.2);
+        }
+
+        .forgot-box h2 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #1e3c72;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .message {
+            display: none;
+            padding: 12px;
+            margin-bottom: 18px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .message.success {
+            display: block;
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+
+        .message.error {
+            display: block;
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        .input-group {
+            margin-bottom: 18px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            outline: none;
+            font-size: 15px;
+            color: #111827;
+        }
+
+        .input-group input:focus {
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(37, 99, 235, 0.1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            background: #1e3c72;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .btn:hover {
+            background: #16325c;
+        }
+
+        .btn:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        .link {
+            text-align: center;
+            margin-top: 20px;
+            color: #64748b;
+        }
+
+        .link a {
+            text-decoration: none;
+            color: #1e3c72;
+            font-weight: bold;
+        }
+
+        .link a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="forgot-box">
+
+    <h2>
+        Forgot Password
+    </h2>
+
+    <p class="subtitle">
+        Enter your registered email and create a new password.
+    </p>
+
+    <div
+        id="message"
+        class="message">
+    </div>
+
+    <form id="forgotPasswordForm">
+
+        <div class="input-group">
+
+            <label for="email">
+                Email
+            </label>
+
+            <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Enter your registered email"
+                autocomplete="email"
+                required
+            >
+
+        </div>
+
+        <div class="input-group">
+
+            <label for="new_password">
+                New Password
+            </label>
+
+            <input
+                type="password"
+                id="new_password"
+                name="new_password"
+                placeholder="Enter new password"
+                autocomplete="new-password"
+                minlength="6"
+                required
+            >
+
+        </div>
+
+        <div class="input-group">
+
+            <label for="confirm_password">
+                Confirm New Password
+            </label>
+
+            <input
+                type="password"
+                id="confirm_password"
+                name="confirm_password"
+                placeholder="Confirm new password"
+                autocomplete="new-password"
+                minlength="6"
+                required
+            >
+
+        </div>
+
+        <button
+            type="submit"
+            class="btn"
+            id="resetButton">
+
+            Reset Password
+
+        </button>
+
+        <div class="link">
+
+            Remember your password?
+
+            <a href="{{ url_for('login_page') }}">
+                Login
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+<script>
+
+    function showMessage(message, type) {
+
+        const messageBox =
+            document.getElementById("message");
+
+        messageBox.className =
+            "message " + type;
+
+        messageBox.textContent =
+            message;
+
+        messageBox.style.display =
+            "block";
+    }
+
+
+    function hideMessage() {
+
+        const messageBox =
+            document.getElementById("message");
+
+        messageBox.className =
+            "message";
+
+        messageBox.textContent =
+            "";
+
+        messageBox.style.display =
+            "none";
+    }
+
+
+    document
+        .getElementById("forgotPasswordForm")
+        .addEventListener(
+            "submit",
+            async function(event) {
+
+                event.preventDefault();
+
+                const email =
+                    document
+                        .getElementById("email")
+                        .value
+                        .trim()
+                        .toLowerCase();
+
+                const newPassword =
+                    document
+                        .getElementById("new_password")
+                        .value;
+
+                const confirmPassword =
+                    document
+                        .getElementById("confirm_password")
+                        .value;
+
+                const resetButton =
+                    document
+                        .getElementById("resetButton");
+
+                hideMessage();
+
+                if (!email) {
+
+                    showMessage(
+                        "Please enter your email.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+                if (!newPassword) {
+
+                    showMessage(
+                        "Please enter your new password.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+                if (newPassword.length < 6) {
+
+                    showMessage(
+                        "Password must be at least 6 characters.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+                if (newPassword !== confirmPassword) {
+
+                    showMessage(
+                        "Passwords do not match.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+                resetButton.disabled = true;
+
+                resetButton.textContent =
+                    "Resetting...";
+
+                try {
+
+                    const response =
+                        await fetch(
+                            "/api/forgot-password",
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body:
+                                    JSON.stringify({
+                                        email: email,
+                                        new_password: newPassword,
+                                        confirm_password: confirmPassword
+                                    })
+                            }
+                        );
+
+                    let data;
+
+                    try {
+
+                        data =
+                            await response.json();
+
+                    } catch (jsonError) {
+
+                        data = {
+                            success: false,
+                            message:
+                                "Invalid server response."
+                        };
+                    }
+
+                    if (
+                        response.ok &&
+                        data.success === true
+                    ) {
+
+                        showMessage(
+                            data.message ||
+                            "Password reset successful. Redirecting to login...",
+                            "success"
+                        );
+
+                        document
+                            .getElementById("forgotPasswordForm")
+                            .reset();
+
+                        setTimeout(
+                            function() {
+
+                                window.location.replace(
+                                    "{{ url_for('login_page') }}"
+                                );
+
+                            },
+                            1200
+                        );
+
+                        return;
+                    }
+
+                    showMessage(
+                        data.message ||
+                        "Unable to reset password.",
+                        "error"
+                    );
+
+                    resetButton.disabled = false;
+
+                    resetButton.textContent =
+                        "Reset Password";
+
+                } catch (error) {
+
+                    console.error(
+                        "FORGOT PASSWORD ERROR:",
+                        error
+                    );
+
+                    showMessage(
+                        "Could not connect to server. Please try again.",
+                        "error"
+                    );
+
+                    resetButton.disabled = false;
+
+                    resetButton.textContent =
+                        "Reset Password";
+                }
+
+            }
+        );
+
+</script>
+
+</body>
+
+</html>
